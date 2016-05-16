@@ -1,0 +1,24 @@
+{
+  "name": "shop-2",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "client-sessions": "^0.7.0",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "jade": "~1.11.0",
+    "morgan": "~1.6.1",
+    "pg": "^4.5.5",
+    "pg-native": "*",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "~3.17.0",
+    "sequelize-cli": "^2.4.0",
+    "sequelize-fixtures": "^0.5.1",
+    "serve-favicon": "~2.3.0",
+    "sqlite3": "^3.1.3"
+  }
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "model": "User",
+    "data": {
+      "username": "test-account1",
+      "password": "test-account1"
+    }
+  },
+  {
+    "model": "User",
+    "data": {
+      "username": "test-account2",
+      "password": "test-account2"
+    }
+  }
+]

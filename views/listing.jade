@@ -1,0 +1,34 @@
+extends layout
+
+
+block content
+    h1= title
+
+    p
+        if loggedIn == undefined
+            h3 You are not logged in
+            br
+            a(href="/users/signup") Click here to sign up.
+            br
+            a(href="/users/login") Click here to login.
+        else
+            h3 You are logged in in, welcome #{loggedIn}
+            a(href="/users/logout") Click here to sign out.
+
+
+
+    ul
+    each listing in listings
+        hr
+        li
+            = listing.title
+            | (
+            a(href="/listing/" + listing.id + "/destroy") Destroy
+            | )
+        p Price: $#{listing.price}
+        p
+            = listing.description
+        each pic in listing.Pictures
+            img(img src='/images/listing_pics/'+pic.title style="width:304px;height:228px;")
+
+

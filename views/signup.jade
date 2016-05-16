@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    h1= title
+    p functional skeleton code for user registration :)
+
+
+    form(action="/users/create", method="post")
+        p username
+            br
+            input(type="text", name="username")
+        p password
+            br
+            input(type="text", name="password")
+        p
+        input(type="submit")
+

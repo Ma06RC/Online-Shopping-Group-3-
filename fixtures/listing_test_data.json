@@ -1,0 +1,38 @@
+[
+  {
+    "model": "Listing",
+    "data": {
+      "id": 1,
+      "category": "Computers",
+      "title": "Super Sweet Macbook!",
+      "price": 999.99,
+      "description": "Mint condition, no low blows plz",
+      "date_purchased": null,
+      "User": 2
+    }
+  },
+  {
+    "model": "Listing",
+    "data": {
+      "id": 2,
+      "category": "Computers",
+      "title": "Broken Dell Laptop!",
+      "price": 1.00,
+      "description": "Makes a great bread board!!!",
+      "date_purchased": null,
+      "User": 1
+    }
+  },
+  {
+    "model": "Listing",
+    "data": {
+      "id": 3,
+      "category": "Clothing",
+      "title": "Old found t-shirt",
+      "price": 5.00,
+      "description": "has a few stains, but still works",
+      "date_purchased": null,
+      "User": 1
+    }
+  }
+]
