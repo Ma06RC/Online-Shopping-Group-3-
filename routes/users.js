@@ -1,4 +1,5 @@
 var models = require('../models');
+var addresses = require('../addresses');
 var express = require('express');
 var router = express.Router();
 
@@ -23,11 +24,12 @@ router.get('/:user_id/destroy', function (req, res) {
 });
 
 router.get('/signup', function (req, res) {
-    res.render('signup', {title: "Sign up"});
+    res.render('signup', {title: "Sign up", secureAddress: addresses.SECURE});
 });
 
 router.get('/login', function (req, res) {
-    res.render('login', {title: "Login Page", message: "Please enter your username and password"});
+    res.render('login', {title: "Login Page", message: "Please enter your username and password",
+               secureAddress: addresses.SECURE});
 });
 
 router.post('/login', function (req, res) {
@@ -39,10 +41,11 @@ router.post('/login', function (req, res) {
     }).then(function (user) {
         if (user == null) {
             res.render('login', {title: 'Login',
-                message: "username " + req.body.user + " or password is incorrect"});
+                message: "username " + req.body.username + " or password is incorrect",
+                secureAddress: addresses.SECURE});
         } else {
             req.session_state.username = user.username;
-            res.redirect('/');
+            res.redirect(addresses.ADDRESS+'/');
         }
     });
 });

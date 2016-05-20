@@ -23,7 +23,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(clientSessions({
-  secret: 'WeDontCareAboutEncryption' // CHANGE THIS IRL!
+  secret: '33df9e76c8ccb4e8e1d190ae87f092e6e22a9d5ca3fd7cd6ff39L', // This hex was random, but now it's constant
+  cookie: {secure: false}
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 

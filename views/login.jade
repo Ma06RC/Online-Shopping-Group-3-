@@ -5,13 +5,14 @@ block content
 
     h3= message
 
-    form(action="/users/login", method="post")
-        p username
-            br
-            input(type="text", name="username")
-        p password
-            br
-            input(type="text", name="password")
+    form(action=secureAddress+"/users/login", method="post")
+        dl
+            dt username
+            dd
+                input(type="text", name="username")
+            dt password
+            dd
+                input(type="password", name="password")
         p
-        input(type="submit")
+            input(type="submit")
 

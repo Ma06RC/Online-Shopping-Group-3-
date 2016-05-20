@@ -5,8 +5,11 @@
  */
 
 var app = require('../app');
+var addresses = require('../addresses');
 var debug = require('debug')('shop-2:server');
 var http = require('http');
+var https = require('https');
+var fs = require('fs');
 var models = require("../models");
 var sequelize_fixtures = require('sequelize-fixtures');
 
@@ -15,12 +18,21 @@ var sequelize_fixtures = require('sequelize-fixtures');
  */
 
 app.set('port', process.env.PORT || '3000');
+app.set('port_secure', process.env.PORT_SECURE || '3001');
+app.set('domain', process.env.DOMAIN || 'localhost');
+
+addresses.ADDRESS = 'http://'+app.get('domain')+':'+app.get('port');
+addresses.SECURE = 'https://'+app.get('domain')+':'+app.get('port_secure');
 
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
+var secureServer = https.createServer({
+        key: fs.readFileSync('keys/private.pem'),
+        cert: fs.readFileSync('keys/public.pem')
+    },app)
 
 var fixtures = ['fixtures/user_test_data.json',
                 'fixtures/listing_test_data.json',
@@ -28,8 +40,11 @@ var fixtures = ['fixtures/user_test_data.json',
 
 models.sequelize.sync({force:true}).then(function () {
     sequelize_fixtures.loadFiles(fixtures, models).then(function () {
-        var server = app.listen(app.get('port'), function () {
+        server.listen(app.get('port'), function () {
             console.log('Express server listening on port ' + server.address().port);
+        });
+        secureServer.listen(app.get('port_secure'), function() {
+            console.log('Secure Express server listening on port ' + secureServer.address().port);
         });
     });
 });
