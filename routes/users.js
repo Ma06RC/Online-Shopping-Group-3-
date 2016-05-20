@@ -4,13 +4,17 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/create', function (req, res) {
-    models.User.create({
-        username: req.body.username,
-        password: req.body.password
-    }).then(function (results) {
-        console.log(results);
-        res.redirect('/');
-    });
+    if (req.body.password == req.body.password_check) {
+        models.User.create({
+            username: req.body.username,
+            password: req.body.password
+        }).then(function (results) {
+            console.log(results);
+            res.redirect(addresses.ADDRESS+'/');
+        });
+    } else {
+        res.redirect(addresses.ADDRESS+'/users/signup');
+    }
 });
 
 router.get('/:user_id/destroy', function (req, res) {

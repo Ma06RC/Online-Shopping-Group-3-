@@ -2,16 +2,19 @@ extends layout
 
 block content
     h1= title
-    p functional skeleton code for user registration :)
 
 
-    form(action="/users/create", method="post")
-        p username
-            br
-            input(type="text", name="username")
-        p password
-            br
-            input(type="text", name="password")
+    form(action=secureAddress+"/users/create", method="post")
+        dl
+            dt username
+            dd
+                input(type="text", name="username")
+            dt password
+            dd
+                input(type="password", name="password")
+            dt password (again)
+            dd
+                input(type="password", name="password_check")
         p
-        input(type="submit")
+            input(type="submit", value="Sign Up")
 
