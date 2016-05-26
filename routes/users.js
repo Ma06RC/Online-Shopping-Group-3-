@@ -3,14 +3,24 @@ var addresses = require('../addresses');
 var express = require('express');
 var router = express.Router();
 
+
 router.post('/create', function (req, res) {
     if (req.body.password == req.body.password_check) {
         models.User.create({
             username: req.body.username,
             password: req.body.password
         }).then(function (results) {
+            if(results == null){        // test if the results is null
+                res.status(404);    //Set the HTTP error code
+                console.log("Not Found \n");
+            }
+
             console.log(results);
             res.redirect(addresses.ADDRESS+'/');
+        }).catch(function (err) {
+            res.status(400);    //Set the HTTP error code
+            console.log("Bad Request " + err.message);
+
         });
     } else {
         res.redirect(addresses.ADDRESS+'/users/signup');
@@ -44,9 +54,13 @@ router.post('/login', function (req, res) {
         }
     }).then(function (user) {
         if (user == null) {
+            res.status(404);    //Set the HTTP error code
+            console.log("Not Found "+ req.body.username);      //prints out the error
+
             res.render('login', {title: 'Login',
                 message: "username " + req.body.username + " or password is incorrect",
                 secureAddress: addresses.SECURE});
+
         } else {
             req.session_state.username = user.username;
             res.redirect(addresses.ADDRESS+'/');
