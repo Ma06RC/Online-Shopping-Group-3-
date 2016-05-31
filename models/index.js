@@ -18,7 +18,17 @@ if (config.use_env_variable) {
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
 }*/
 
-var sequelize = new Sequelize(config.url, config);
+if (process.env.DATABASE_URL) {
+    // the application is executed on Heroku ... use the postgres database
+    sequelize = new Sequelize(process.env.DATABASE_URL, {
+      dialect:  'postgres',
+      native :true,
+      omitNull: true
+    })
+  } else {
+    // the application is executed on the local machine ... use mysql
+    var sequelize = new Sequelize(config.url, config);
+  }
 
 fs
   .readdirSync(__dirname)
