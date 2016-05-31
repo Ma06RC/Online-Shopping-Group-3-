@@ -28,7 +28,7 @@ if (process.env.DATABASE_URL) {
   } else {
     // the application is executed on the local machine ... use mysql
     var sequelize = new Sequelize(config.url, config);
-  }
+  } 
 
 fs
   .readdirSync(__dirname)
