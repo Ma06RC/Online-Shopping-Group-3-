@@ -21,7 +21,7 @@ passport.use(new Strategy({
       //process.env.CLIENT_ID,
       clientSecret: 'b007bf66831f20c35bce0099c16784e3',
       //process.env.CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/login/facebook/return'
+      callbackURL: 'https://still-ocean-25340.herokuapp.com/login/facebook/return'
     },
     function(accessToken, refreshToken, profile, cb) {
       model.User.findOrCreate({ username: profile.id }, function (err, user) {
