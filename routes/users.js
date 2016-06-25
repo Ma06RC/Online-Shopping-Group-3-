@@ -7,8 +7,8 @@ router.post('/create', function (req, res) {
         models.User.find({
             where: {username: req.body.username}
         }).then(function(results) {
-            console.log("Checking your username", results);
-            if (results && results.length > 0) {
+            if (results) {
+                // TODO add feedback message.
                 res.redirect('/users/signup');
             }
             return models.User.create({
