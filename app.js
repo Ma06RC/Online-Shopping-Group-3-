@@ -19,7 +19,8 @@ var app = express();
 passport.use(new Strategy({
       clientID: '496438923889701',
       //process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
+      clientSecret: 'b007bf66831f20c35bce0099c16784e3',
+      //process.env.CLIENT_SECRET,
       callbackURL: 'http://localhost:3000/login/facebook/return'
     },
     function(accessToken, refreshToken, profile, cb) {
