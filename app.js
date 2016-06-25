@@ -24,7 +24,7 @@ passport.use(new Strategy({
       callbackURL: 'https://still-ocean-25340.herokuapp.com/login/facebook/return'//'http://localhost:3000/login/facebook/return'//
     },
     function(accessToken, refreshToken, profile, cb) {
-      models.User.findOrCreate({ where:{username: profile.id } }, function (err, user) {
+      models.User.findOrCreate({ where:{username: profile.id } }).then(function (err, user) {
         return cb(err, user);
       });
     }));
