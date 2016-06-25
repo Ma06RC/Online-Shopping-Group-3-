@@ -1,2 +1,2 @@
-exports.ADDRESS = 'http://localhost:3000';
-exports.SECURE = 'http://localhost:3001';
+exports.ADDRESS = 'http://still-ocean-25340.herokuapp.com';
+exports.SECURE = 'http://still-ocean-25340.herokuapp.com';
