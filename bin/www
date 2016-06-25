@@ -21,9 +21,6 @@ app.set('port', process.env.PORT || '3000');
 app.set('port_secure', process.env.PORT_SECURE || '3001');
 app.set('domain', process.env.DOMAIN || 'localhost');
 
-addresses.ADDRESS = 'http://'+app.get('domain')+':'+app.get('port');
-addresses.SECURE = 'https://'+app.get('domain')+':'+app.get('port_secure');
-
 /**
  * Create HTTP server.
  */
