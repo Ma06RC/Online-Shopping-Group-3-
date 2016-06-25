@@ -50,7 +50,7 @@ app.get('/login/facebook',
     passport.authenticate('facebook'));
 
 app.get('/login/facebook/return',
-    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    passport.authenticate('facebook', { failureRedirect: '/loginFail' }),
     function(req, res) {
       res.redirect('/');
     });
