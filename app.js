@@ -18,18 +18,32 @@ var app = express();
 
 passport.use(new Strategy({
       clientID: '496438923889701',
-      //process.env.CLIENT_ID,
       clientSecret: 'b007bf66831f20c35bce0099c16784e3',
-      //process.env.CLIENT_SECRET,
-      callbackURL: 'https://still-ocean-25340.herokuapp.com/login/facebook/return'//'http://localhost:3000/login/facebook/return'//
+      callbackURL: 'https://still-ocean-25340.herokuapp.com/login/facebook/return'
     },
     function(accessToken, refreshToken, profile, cb) {
-      models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
-       
-      }).then(function (err, results) {
+        models.User.findOrCreate({where:{username: profile.id}}, function(err,user){
+            if(err)     //if theres an error, return the callback with the error
+                return cb(err);
+            if(user)
+                return cb(null,user);
+            else{    //means no user found in the database therefore creates one
+                var newUser = new User();
+                newUser.username = profile.id;
 
-            return cb(err, results);
-      });
+                newUser.save(function (err) {
+                    if(err)
+                        throw err;
+                    return cb(null, newUser);
+                })
+            }
+
+        });
+      // models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
+      // }).then(function (err, results) {
+      //
+      //       return cb(err, results);
+      // });
     }));
 
 passport.serializeUser(function(user, cb) {
@@ -50,8 +64,7 @@ app.get('/login/facebook',
     passport.authenticate('facebook'));
 
 app.get('/login/facebook/return',
-    passport.authenticate('facebook', { successRedirect: '/',
-                                        failureRedirect: '/loginFail' }),
+    passport.authenticate('facebook', { failureRedirect: '/loginFail' }),
     function(req, res) {
       res.redirect('/');
     });
