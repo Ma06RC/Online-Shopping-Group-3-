@@ -1,6 +1,6 @@
 {
   "development": {
-    "url": "postgres://marclaroza:abc@localhost:5432/nwen304_shop",
+    "url": "postgres://raymondgeuze:1234@localhost:5432/swen303_shop",
     "dialect": "postgres",
     "native": true,
     "omitNull": true
