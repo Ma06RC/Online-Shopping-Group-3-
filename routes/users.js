@@ -23,7 +23,7 @@ router.post('/create', function (req, res) {
 
         });
     } else {
-        res.redirect(addresses.ADDRESS+'/users/signup');
+        res.redirect('/users/signup');
     }
 });
 
@@ -63,7 +63,7 @@ router.post('/login', function (req, res) {
 
         } else {
             req.session_state.username = user.username;
-            res.redirect(addresses.ADDRESS+'/');
+            res.redirect('/');
         }
     });
 });
