@@ -24,7 +24,7 @@ passport.use(new Strategy({
       callbackURL: 'https://still-ocean-25340.herokuapp.com/login/facebook/return'//'http://localhost:3000/login/facebook/return'//
     },
     function(accessToken, refreshToken, profile, cb) {
-      model.User.findOrCreate({ username: profile.id }, function (err, user) {
+      models.User.findOrCreate({ username: profile.id }, function (err, user) {
         return cb(err, user);
       });
     }));
@@ -69,7 +69,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(clientSessions({
   secret: '33df9e76c8ccb4e8e1d190ae87f092e6e22a9d5ca3fd7cd6ff39L', // This hex was random, but now it's constant
-  cookie: {secure: false}
+  cookie: {secure: false} // TODO should this be true so cookies are not sent over http instead of SSL???
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 

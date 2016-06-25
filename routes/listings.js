@@ -19,6 +19,8 @@ router.get('/', function(req, res) {
             title: 'Express',
             listings: listings,
             loggedIn: loggedIn
+        }).catch(function(err){
+            console.log("Listings router 1: ", err.body)
         });
     }).catch(function (err) {
         res.status(404);    //Set the HTTP error code
