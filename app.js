@@ -31,7 +31,7 @@ passport.use(new Strategy({
                 var newUser = new User();
                 newUser.username = profile.id;
 
-                newUser.save(function (err) {
+                newUser.save(function (err) {       // this saves the new user
                     if(err)
                         throw err;
                     return cb(null, newUser);
@@ -39,7 +39,7 @@ passport.use(new Strategy({
             }
 
         });
-      // models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
+      // models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){      //previous implementation
       // }).then(function (err, results) {
       //
       //       return cb(err, results);
@@ -47,11 +47,15 @@ passport.use(new Strategy({
     }));
 
 passport.serializeUser(function(user, cb) {
-  cb(null, user);
+    cb(null, user.id);
+  //cb(null, user);
 });
 
 passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
+    models.User.findById(obj, function(user, err){
+        cb(err, user)
+    });
+  //cb(null, obj);      //previous implementation
 });
 
 // Initialize Passport and restore authentication state, if any, from the
