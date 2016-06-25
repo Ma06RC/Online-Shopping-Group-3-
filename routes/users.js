@@ -7,6 +7,7 @@ router.post('/create', function (req, res) {
         models.User.find({
             username: req.body.username
         }).then(function(results) {
+            console.log("checking username:", results);
             if (results && results.length > 0) {
                 res.redirect('/users/signup');
             }
