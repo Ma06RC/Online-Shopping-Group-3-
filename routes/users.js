@@ -1,13 +1,19 @@
 var models = require('../models');
-var addresses = require('../addresses');
 var express = require('express');
 var router = express.Router();
 
 router.post('/create', function (req, res) {
     if (req.body.password == req.body.password_check) {
-        models.User.create({
-            username: req.body.username,
-            password: req.body.password
+        models.User.find({
+            username: req.body.username
+        }).then(function(results) {
+            if (results && results.length > 0) {
+                res.redirect('/users/signup');
+            }
+            return models.User.create({
+                username: req.body.username,
+                password: req.body.password
+            })
         }).then(function (results) {
             if(results == null){        // test if the results is null
                 res.status(404);    //Set the HTTP error code
@@ -15,14 +21,15 @@ router.post('/create', function (req, res) {
             }
 
             console.log(results);
-            res.redirect(addresses.ADDRESS+'/');
+            //req.session_state.username = user.username; // log the user in
+            res.redirect('/');
         }).catch(function (err) {
             res.status(400);    //Set the HTTP error code
             console.log("Bad Request " + err.message);
 
         });
     } else {
-        res.redirect(addresses.ADDRESS+'/users/signup');
+        res.redirect('/users/signup');
     }
 });
 
@@ -37,12 +44,11 @@ router.get('/:user_id/destroy', function (req, res) {
 });
 
 router.get('/signup', function (req, res) {
-    res.render('signup', {title: "Sign up", secureAddress: addresses.SECURE});
+    res.render('signup', {title: "Sign up"});
 });
 
 router.get('/login', function (req, res) {
-    res.render('login', {title: "Login Page", message: "Please enter your username and password",
-               secureAddress: addresses.SECURE});
+    res.render('login', {title: "Login Page", message: "Please enter your username and password"});
 });
 
 router.post('/login', function (req, res) {
@@ -57,12 +63,11 @@ router.post('/login', function (req, res) {
             console.log("Not Found "+ req.body.username);      //prints out the error
 
             res.render('login', {title: 'Login',
-                message: "username " + req.body.username + " or password is incorrect",
-                secureAddress: addresses.SECURE});
+                message: "username " + req.body.username + " or password is incorrect"});
 
         } else {
             req.session_state.username = user.username;
-            res.redirect(addresses.ADDRESS+'/');
+            res.redirect('/');
         }
     });
 });

@@ -5,11 +5,11 @@ block content
 
     h3= message
 
-    form(action=secureAddress+"/users/login", method="post")
+    form(action="/users/login", method="post")
         dl
             dt username
             dd
-                input(type="text", name="username")
+                input(type="text", name="username", autofocus="autofocus")
             dt password
             dd
                 input(type="password", name="password")

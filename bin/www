@@ -5,7 +5,6 @@
  */
 
 var app = require('../app');
-var addresses = require('../addresses');
 var debug = require('debug')('shop-2:server');
 var http = require('http');
 var https = require('https');
@@ -26,10 +25,6 @@ app.set('domain', process.env.DOMAIN || 'localhost');
  */
 
 var server = http.createServer(app);
-var secureServer = https.createServer({
-        key: fs.readFileSync('../keys/private.pem'),
-        cert: fs.readFileSync('../keys/public.pem')
-    },app)
 
 var fixtures = ['../fixtures/user_test_data.json',
                 '../fixtures/listing_test_data.json',
@@ -40,9 +35,7 @@ models.sequelize.sync({force:true}).then(function () {
         server.listen(app.get('port'), function () {
             console.log('Express server listening on port ' + server.address().port);
         });
-        secureServer.listen(app.get('port_secure'), function() {
-            console.log('Secure Express server listening on port ' + secureServer.address().port);
-        });
+        
     });
 });
 
