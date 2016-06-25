@@ -24,7 +24,7 @@ router.get('/', function(req, res) {
     }
 
     res.render('index', {
-      title: 'Express',
+      title: 'Nwen304 Group-3',
       users: users,
       loggedIn: loggedIn
     });
