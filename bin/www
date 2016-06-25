@@ -26,9 +26,9 @@ app.set('domain', process.env.DOMAIN || 'localhost');
 
 var server = http.createServer(app);
 
-var fixtures = ['../fixtures/user_test_data.json',
-                '../fixtures/listing_test_data.json',
-                '../fixtures/picture_test_data.json'];
+var fixtures = ['fixtures/user_test_data.json',
+                'fixtures/listing_test_data.json',
+                'fixtures/picture_test_data.json'];
 
 models.sequelize.sync({force:true}).then(function () {
     sequelize_fixtures.loadFiles(fixtures, models).then(function () {
