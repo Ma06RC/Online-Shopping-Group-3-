@@ -3,7 +3,6 @@ var addresses = require('../addresses');
 var express = require('express');
 var router = express.Router();
 
-
 router.post('/create', function (req, res) {
     if (req.body.password == req.body.password_check) {
         models.User.create({
