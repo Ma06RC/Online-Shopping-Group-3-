@@ -25,7 +25,7 @@ passport.use(new Strategy({
     },
     function(accessToken, refreshToken, profile, cb) {
       models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
-
+       
       }).then(function (err, results) {
 
             return cb(err, results);
@@ -50,7 +50,8 @@ app.get('/login/facebook',
     passport.authenticate('facebook'));
 
 app.get('/login/facebook/return',
-    passport.authenticate('facebook', { failureRedirect: '/loginFail' }),
+    passport.authenticate('facebook', { successRedirect: '/',
+                                        failureRedirect: '/loginFail' }),
     function(req, res) {
       res.redirect('/');
     });
