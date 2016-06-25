@@ -34,7 +34,7 @@ router.get('/', function(req, res) {
   });
 });
 
-router.get('/loginFail', function(req, res) {
+router.get('/loginFail*', function(req, res) {
   res.render(loginFail,{message: "Login has failed for some reason"});
 
 });
