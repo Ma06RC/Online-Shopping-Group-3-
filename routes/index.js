@@ -2,6 +2,14 @@ var models  = require('../models');
 var express = require('express');
 var router  = express.Router();
 
+/* At the top, with other redirect methods before other routes */
+app.get('*',function(req,res,next){
+  if(req.headers['x-forwarded-proto']!='https')
+    res.redirect('https://'+process.env.DOMAIN+"/"+req.url)
+  else
+    next() /* Continue to other routes if we're not redirecting */
+})
+
 router.get('/', function(req, res) {
   var loggedIn;
   if (req.session_state.username) {
