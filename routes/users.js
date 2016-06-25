@@ -22,7 +22,7 @@ router.post('/create', function (req, res) {
             }
 
             console.log(results);
-            req.session_state.username = user.username; // log the user in
+            //req.session_state.username = user.username; // log the user in
             res.redirect('/');
         }).catch(function (err) {
             res.status(400);    //Set the HTTP error code
