@@ -24,12 +24,12 @@ passport.use(new Strategy({
       callbackURL: 'https://still-ocean-25340.herokuapp.com/login/facebook/return'//'http://localhost:3000/login/facebook/return'//
     },
     function(accessToken, refreshToken, profile, cb) {
-      models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}})
-        /*
-        then( function (err, user) {
+      models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
 
-            return cb(err, user);
-      });*/
+      }).then(function (err, results) {
+
+            return cb(err, results);
+      });
     }));
 
 passport.serializeUser(function(user, cb) {
