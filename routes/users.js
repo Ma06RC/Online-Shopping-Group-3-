@@ -8,7 +8,7 @@ const someOtherPlaintextPassword = 'not_bacon';
 var Promise = require('promise');
 
 var genSalt = Promise.denodeify(bcrypt.genSalt);
-var hash = Promise.denodeify(bcrypt.hash);
+var bcryptHash = Promise.denodeify(bcrypt.hash);
 var salt = genSalt(saltRounds);
 
 router.post('/create', function (req, res) {
@@ -27,7 +27,7 @@ router.post('/create', function (req, res) {
             }
             return salt;
         }).then(function (salt) {
-            return hash(req.body.password, salt);
+            return bcryptHash(req.body.password, salt);
         }).then(function(hash){
             console.log("Creating user " + req.body.username + " with password " + hash);
             return models.User.create({
@@ -97,7 +97,7 @@ router.post('/login', function (req, res) {
             return salt;
         }
     }).then(function (salt) {
-        return hash(req.body.password, salt);
+        return bcryptHash(req.body.password, salt);
     }).then(function(hash) {
         bcrypt.compare(user.password, hash, function (err, result) {
             if (result && !err) {
