@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(clientSessions({
   secret: '33df9e76c8ccb4e8e1d190ae87f092e6e22a9d5ca3fd7cd6ff39L', // This hex was random, but now it's constant
-  cookie: {secure: true}, // TODO should this be true so cookies are not sent over http instead of SSL???
+  cookie: {secure: false}, // TODO should this be true so cookies are not sent over http instead of SSL???
   duration: /*24 * 60 * 60 * */10 * 1000, // how long the session will stay valid in ms
   activeDuration: 1000 * 10 /** 5  */// if expiresIn < activeDuration, the session will be extended by activeDuration milliseconds
 }));
