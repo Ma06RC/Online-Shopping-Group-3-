@@ -42,6 +42,7 @@ router.get('/*', function (req, res) {
     else {
         loggedIn = req.session_state.username;
         UserID = req.session_state.userID;
+        console.log("UserID: "+ req.session_state.userID);
 
         models.Cart.findAll({
                 where: {
