@@ -3,8 +3,6 @@ var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
-const myPlaintextPassword = 's0/\/\P4$$w0rD';
-const someOtherPlaintextPassword = 'not_bacon';
 var Promise = require('promise');
 
 var genSalt = Promise.denodeify(bcrypt.genSalt);
@@ -95,8 +93,6 @@ router.post('/login', function (req, res) {
 
         } else {
             bcrypt.compare(req.body.password, _user.password, function (err, result) {
-                console.log("Checking result " + result);
-                console.log("Checking error " + err);
                 if (result && !err) {
                     req.session_state.username = _user.username;
                     req.session_state.userID = _user.id;
