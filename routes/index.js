@@ -22,8 +22,8 @@ router.get('*',function(req,res,next){
   if(!DEBUG && req.headers['x-forwarded-proto']!='https')
     res.redirect('https://still-ocean-25340.herokuapp.com'+req.url)
   else
-    next() /* Continue to other routes if we're not redirecting */
-})
+    next(); /* Continue to other routes if we're not redirecting */
+});
 
 router.get('/', function(req, res) {
   var loggedIn;
