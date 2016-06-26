@@ -48,7 +48,7 @@ router.get('/signup', function (req, res) {
     res.render('signup', {title: "Sign up"});
 });
 
-router.get('/login', function (req, res) {
+router.get('/login', function (req, res) 
     res.render('login', {title: "Login Page", message: "Please enter your username and password"});
 });
 
@@ -68,6 +68,10 @@ router.post('/login', function (req, res) {
 
         } else {
             req.session_state.username = user.username;
+            //set the login time here
+            var date = new date();
+            req.session_state.loginTime = date.getMinutes();
+            console.log("setting login time");
             res.redirect('/');
         }
     });
