@@ -41,17 +41,19 @@ router.get('/*', function (req, res) {
             })
             .then(function (listings) {
                 cartReturn = listings;
-                models.Wishlist.findAll({
-                        where: {
-                            UserId: UserID
-                        }
-                    })
-                    .then(function(purchaselist){
+
+                        models.Purchase.findAll({
+                                where: {
+                                    UserId: UserID
+                                }
+                            })
+                            .then(function(purchaselist){
                                 purchaselistReturn = purchaselist;
                                 res.render('profile', {
                                     title: 'title',
                                     UserID: UserID,
                                     listings: cartReturn,
+                                    //wishlist: wishlistReturn,
                                     purchaselist: purchaselistReturn,
                                     loggedIn: loggedIn
                                 });
