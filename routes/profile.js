@@ -17,7 +17,7 @@ router.get('/cart/destroy/:cart_id/', function (req, res) {
 
 
 
-router.get('/*', function (req, res) {
+outer.get('/*', function (req, res) {
     var loggedIn;
     var cartReturn;
     var wishlistReturn;
@@ -33,7 +33,6 @@ router.get('/*', function (req, res) {
     else {
         loggedIn = req.session_state.username;
         UserID = req.session_state.userID;
-        console.log("UserID: " + req.session_state.userID);
 
         models.Cart.findAll({
                 where: {
@@ -42,17 +41,25 @@ router.get('/*', function (req, res) {
             })
             .then(function (listings) {
                 cartReturn = listings;
+                models.Wishlist.findAll({
+                        where: {
+                            UserId: UserID
+                        }
+                    })
+                    .then(function(purchaselist){
+                                purchaselistReturn = purchaselist;
+                                res.render('profile', {
+                                    title: 'title',
+                                    UserID: UserID,
+                                    listings: cartReturn,
+                                    purchaselist: purchaselistReturn,
+                                    loggedIn: loggedIn
+                                });
 
+                            });
 
-                res.render('profile', {
-                    title: 'iShopShop',
-                    UserID: UserID,
-                    listings: cartReturn,
+                    });
 
-                    loggedIn: loggedIn
-                });
-
-            });
 
 
     }
