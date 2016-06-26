@@ -100,6 +100,8 @@ router.post('/login', function (req, res) {
         return bcryptHash(req.body.password, salt);
     }).then(function(hash) {
         bcrypt.compare(_user.password, hash, function (err, result) {
+            console.log("Checking result "+ result);
+            console.log("Checking error "+ err);
             if (result && !err) {
                 req.session_state.username = _user.username;
                 req.session_state.userID = _user.id;
