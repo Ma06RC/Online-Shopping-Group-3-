@@ -17,7 +17,7 @@ router.get('*',function(req,res,next){
       console.log("logout");
     }
     else{
-      req.session_state.loginTime = date.getMinutes();
+      req.session_state.loginTime = date;
       console.log("updating login time" +req.session_state.loginTime);
     }
     console.log("skipping if");
