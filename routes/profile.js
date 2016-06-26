@@ -14,16 +14,8 @@ router.get('/cart/destroy/:cart_id/', function (req, res) {
     });
 });
 
-router.get('/wish/destroy/:wish_id/', function (req, res) {
 
-    models.Wishlist.destroy({
-        where: {
-            id: req.params.wish_id
-        }
-    }).then(function () {
-        res.redirect(req.get('referer'));
-    });
-});
+
 
 router.get('/*', function (req, res) {
     var loggedIn;
@@ -66,6 +58,28 @@ router.get('/*', function (req, res) {
     }
 });
 
+router.get('/buycart/:cart_id/', function (req, res) {
+
+    models.Cart.findAll({
+        where: {
+            id: req.params.cart_id
+        }
+    }).then(function (results) {
+        for(i = 0; i < results.length; i++){
+            models.Purchase.create({
+                UserId: req.session_state.userID,
+                PUserId: req.session_state.userID,
+                ListingId: req.body.ListingId,
+                UserCC: 123445,
+                UserAddress: "place holder address",
+                ListingTitle: req.body.ListingTitle,
+                ListingPrice: req.body.ListingPrice,
+                quantity: req.body.quantity
+            })
+        }
+        res.redirect(req.get('referer'));
+    });
+});
 
 /*
  router.get('/!*', function (req, res) {
