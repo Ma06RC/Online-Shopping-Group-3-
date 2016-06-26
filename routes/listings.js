@@ -30,6 +30,28 @@ router.get('/', function(req, res) {
     });
 });
 
+router.post('/addCart', function (req, res) {
+    if (!req.session_state.username) {
+        res.render('login',
+            {
+                title: 'iShopShop',
+                message: "please login to add items to your shopping cart"
+            });
+        return;
+    }
+
+    models.Cart.create({
+        UserId: req.session_state.userID,
+        ListingId: req.body.ListingId,
+        ListingTitle: req.body.ListingTitle,
+        ListingPrice: req.body.ListingPrice,
+        quantity: req.body.quantity
+    }).then(function (results) {
+        console.log(results);
+        res.redirect('/');
+    });
+});
+
 router.get('/:listing_id/view/', function(req, res) {
     var loggedIn;
     if (req.session_state.username) {

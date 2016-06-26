@@ -20,6 +20,15 @@ block content
     ul
     each listing in listings
         hr
+        form(action="/listings/addCart", method="post")
+            input(name="ListingId", value=listing.id, type='hidden' )
+            input(name="ListingTitle", value=listing.title, type='hidden')
+            input(name="ListingPrice", value=listing.price, type='hidden')
+            input(name="quantity", min=1, value=1, type='number')
+            p
+            input(type="submit", value="Add to cart").btn.btn-primary
+            p
+
         li
             = listing.title
             | (
