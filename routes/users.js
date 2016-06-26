@@ -29,6 +29,7 @@ router.post('/create', function (req, res) {
         }).then(function (salt) {
             return hash(req.body.password, salt);
         }).then(function(hash){
+            console.log("Creating user " + req.body.username + " with password " + hash);
             return models.User.create({
                 username: req.body.username,
                 password: hash
@@ -77,13 +78,11 @@ router.get('/login', function (req, res) {
 router.post('/login', function (req, res) {
     var hash;
 	 res.set('Cache-Control', 'no-cache'); // The behaviour matters here.
-    console.log("Succesfull created HASH");
     models.User.find({
         where: {
             username: req.body.username
         }
     }).then(function (user) {
-        console.log("FOUND USER");
         if (user == null) {
             res.status(404);    //Set the HTTP error code
             console.log("Not Found " + req.body.username);      //prints out the error
@@ -95,18 +94,13 @@ router.post('/login', function (req, res) {
             return Promise.reject("invalid user");
 
         } else {
-            console.log("USER EXISTS");
             return genSalt(saltRounds);
         }
     }).then(function (salt) {
-        console.log("Succesfull created SALT");
         return hash(req.body.password, salt);
     }).then(function(hash) {
-        console.log("Created HASH");
         bcrypt.compare(user.password, hash, function (err, result) {
-            console.log("COMPARED PASSWORD");
             if (result && !err) {
-                console.log("EQUAL PASSWORD");
                 req.session_state.username = user.username;
                 req.session_state.userID = user.id;
                 //set the login time here
