@@ -51,7 +51,7 @@ app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '
         //req.session_state.userID = user.id;
 
         console.log("facebook return req: ", req);
-        console.log("BAAR:   " + req.user.emails);
+        console.log("BAAR:   " + req.user.emails[0].value);
         console.log("facebook return success");
 
         res.set('Cache-Control', 'no-cache'); // Passport behaviour is important here.
