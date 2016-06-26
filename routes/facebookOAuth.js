@@ -49,7 +49,7 @@ app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '
     function(req, res) {
         console.log("login return foo");
         console.log("facebook return success");
-        console.log("facebook return req: ", req);
+        //console.log("facebook return req: ", req);
 
         //req.session_state.username = user.username;
         //req.session_state.userID = user.id;
