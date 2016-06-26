@@ -15,7 +15,8 @@ router.get('/', function(req, res) {
             console.log("Not Found \n");
         }
 
-		  res.set('Cache-Control', 'max-age='+(8/*hrs*/*60/*min*/*60/*s*/)+', public');
+		  //res.set('Cache-Control', 'max-age='+(8/*hrs*/*60/*min*/*60/*s*/)+', public');
+		  res.set('Cache-Control', 'max-age=20, public'); // For testing
 		  res.set('Vary', 'Cookie');
         res.render('listing', {
             title: 'Express',
@@ -46,7 +47,8 @@ router.get('/:listing_id/view/', function(req, res) {
             console.log("Not Found \n");
         }
 
-		  res.set('Cache-Control', 'max-age'+(16/*hrs*/*60/*min*/*60)+', public');
+		  //res.set('Cache-Control', 'max-age'+(16/*hrs*/*60/*min*/*60)+', public');
+		  res.set('Cache-Control', 'max-age=20, public');
 		  res.set('Vary', 'Cookie');
         res.render('listing', {
             title: 'Express',
