@@ -31,6 +31,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/addCart', function (req, res) {
+	res.set('Cache-Control', 'no-cache'); // The server's INSERT is important here.
     if (!req.session_state.username) {
         res.render('login',
             {
