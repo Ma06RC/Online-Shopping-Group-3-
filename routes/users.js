@@ -22,6 +22,7 @@ router.post('/create', function (req, res) {
                 // TODO add feedback message.
                 res.render('signup', {
                     title: "username is already taken"});
+                return Promise.reject("don't create");
                 //res.redirect('/users/signup');
             }
             return genSalt(saltRounds);
@@ -76,17 +77,11 @@ router.get('/login', function (req, res) {
 router.post('/login', function (req, res) {
     var hash;
 	 res.set('Cache-Control', 'no-cache'); // The behaviour matters here.
-    genSalt(saltRounds).then(function (salt) {
-        console.log("Succesfull created SALT");
-        return hash(req.body.password, salt);
-    }).then(function(_hash){
-        hash = _hash;
-        console.log("Succesfull created HASH");
-        return models.User.find({
-            where: {
-                username: req.body.username
-            }
-        });
+    console.log("Succesfull created HASH");
+    models.User.find({
+        where: {
+            username: req.body.username
+        }
     }).then(function (user) {
         console.log("FOUND USER");
         if (user == null) {
@@ -98,27 +93,33 @@ router.post('/login', function (req, res) {
 
         } else {
             console.log("USER EXISTS");
-            bcrypt.compare(user.password, hash, function (err, result) {
-                console.log("COMPARED PASSWORD");
-                if(result && !err){
-                    console.log("EQUAL PASSWORD");
-                    req.session_state.username = user.username;
-                    req.session_state.userID = user.id;
-                    //set the login time here
-                    //var date = new Date();
-                    //req.session_state.loginTime = date.getMinutes();
-                    //console.log("setting login time");
-                    res.redirect('/');
-                }
-                else{
-                    console.log("NOT EQUAL");
-                    res.status(404);    //Set the HTTP error code
-                    console.log("Incorrect Password for "+ req.body.username);      //prints out the error
+            genSalt(saltRounds).then(function (salt) {
+                console.log("Succesfull created SALT");
+                return hash(req.body.password, salt);
+            }).then(function(hash) {
+                bcrypt.compare(user.password, hash, function (err, result) {
+                    console.log("COMPARED PASSWORD");
+                    if (result && !err) {
+                        console.log("EQUAL PASSWORD");
+                        req.session_state.username = user.username;
+                        req.session_state.userID = user.id;
+                        //set the login time here
+                        //var date = new Date();
+                        //req.session_state.loginTime = date.getMinutes();
+                        //console.log("setting login time");
+                        res.redirect('/');
+                    }
+                    else {
+                        console.log("NOT EQUAL");
+                        res.status(404);    //Set the HTTP error code
+                        console.log("Incorrect Password for " + req.body.username);      //prints out the error
 
-                    res.render('login', {title: 'Login',
-                        message: "username " + req.body.username + " or password is incorrect"});
-                }
-
+                        res.render('login', {
+                            title: 'Login',
+                            message: "username " + req.body.username + " or password is incorrect"
+                        });
+                    }
+                });
             });
         }
     });
