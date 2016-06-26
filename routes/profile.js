@@ -74,8 +74,11 @@ router.get('/buycart/:cart_id/', function (req, res) {
             id: req.params.cart_id
         }
     }).then(function (results) {
+
+        console.log("buycart ", results[0]);
+
         for(i = 0; i < results.length; i++){
-            models.Purchase.create({
+                models.Purchase.create({
                 UserId: req.session_state.userID,
                 PUserId: req.session_state.userID,
                 ListingId: req.body.ListingId,
