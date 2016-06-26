@@ -99,7 +99,7 @@ router.post('/login', function (req, res) {
     }).then(function (salt) {
         return bcryptHash(req.body.password, salt);
     }).then(function(hash) {
-        bcrypt.compare(user.password, hash, function (err, result) {
+        bcrypt.compare(_user.password, hash, function (err, result) {
             if (result && !err) {
                 req.session_state.username = _user.username;
                 req.session_state.userID = _user.id;
