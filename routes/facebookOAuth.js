@@ -17,7 +17,7 @@ passport.use(new Strategy({
         //console.log("in app.js - profileID ", profile.id);
         models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
           //  console.log("in apps.js - results ", results);
-
+            profile.dbID = results.id;
             return cb(null, profile)
 
         })
@@ -43,7 +43,7 @@ app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '
 
     function(req, res) {
         req.session_state.username = req.user.emails[0].value;      //sets the username to be the facebook email address
-
+        req.session_state.userID = req.user.dbID;
         res.set('Cache-Control', 'no-cache'); // Passport behaviour is important here.
         res.redirect('/');
     });
