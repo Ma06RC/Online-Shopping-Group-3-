@@ -23,6 +23,8 @@ router.get('/', function(req, res) {
       console.log("Not Found \n");
     }
 
+    res.set('Cache-Control', 'max-age='+(8/*hrs*/*60/*min*/*60/*s*/)+', public');
+    res.set('Vary', 'Cookie');
     res.render('index', {
       title: 'Nwen304 Group-3',
       users: users,
@@ -35,6 +37,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/loginFail', function(req, res) {
+  res.set('Cache-Control', 'no-cache');
   res.render('loginFail',{message: "FACEBOOK Login has failed for some reason"});
 
 });

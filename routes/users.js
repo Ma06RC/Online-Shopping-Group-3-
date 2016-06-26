@@ -3,6 +3,8 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/create', function (req, res) {
+	 // It's the server side behaviour that matters here, so don't hide any requests from us.
+	 res.set('Cache-Control', 'no-cache');
     if (req.body.password == req.body.password_check) {
         models.User.find({
             where: {username: req.body.username}
@@ -34,7 +36,8 @@ router.post('/create', function (req, res) {
     }
 });
 
-router.get('/:user_id/destroy', function (req, res) {
+router.post('/:user_id/destroy', function (req, res) {
+	 res.set('Cache-Control', 'no-cache'); // It's the behaviour that matters here.
     models.User.destroy({
         where: {
             id: req.params.user_id
@@ -45,14 +48,17 @@ router.get('/:user_id/destroy', function (req, res) {
 });
 
 router.get('/signup', function (req, res) {
+	 res.set('Cache-Control', 'public'); // We aren't going to be updating this UI too quickly.
     res.render('signup', {title: "Sign up"});
 });
 
 router.get('/login', function (req, res) {
+	 res.set('Cache-Control', 'public'); // We aren't going to be updating this UI too quickly.
     res.render('login', {title: "Login Page", message: "Please enter your username and password"});
 });
 
 router.post('/login', function (req, res) {
+	 res.set('Cache-Control', 'no-cache'); // The behaviour matters here.
     models.User.find({
         where: {
             username: req.body.username,
@@ -74,6 +80,7 @@ router.post('/login', function (req, res) {
 });
 
 router.get('/logout', function (req, res) {
+	 res.set('Cache-Control', 'no-cache');
     req.session_state.reset();
     res.redirect('/');
 });

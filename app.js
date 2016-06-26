@@ -58,12 +58,14 @@ app.get('/login/facebook/return',
     
     function(req, res) {
         console.log("facebook return success");
+        res.set('Cache-Control', 'no-cache'); // Passport behaviour must be invoked.
       res.redirect('/');
     });
 
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
+      res.set('Cache-Control', 'no-cache'); // Passport behaviour must be invoked.
       res.render('profile', { user: req.user });
     });
 
