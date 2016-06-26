@@ -49,6 +49,11 @@ app.get('/login/return',
 
     function(req, res) {
         console.log("facebook return success");
+        console.log("facebook return req: ", req);
+
+        //req.session_state.username = user.username;
+        //req.session_state.userID = user.id;
+
         res.redirect('/');
     });
 
