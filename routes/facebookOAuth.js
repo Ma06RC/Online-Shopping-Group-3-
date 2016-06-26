@@ -48,8 +48,8 @@ app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '
 
     function(req, res) {
         req.session_state.username = req.user.emails[0].value;
-        //req.session_state.userID = user.id;
 
+        //req.session_state.userID = user.id;
 
         //console.log("BAAR:   " + req.user.emails[0].value);
         //console.log("facebook return success");
