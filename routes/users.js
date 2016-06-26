@@ -5,10 +5,10 @@ var router = express.Router();
 router.post('/create', function (req, res) {
     if (req.body.password == req.body.password_check) {
         models.User.find({
-            username: req.body.username
+            where: {username: req.body.username}
         }).then(function(results) {
-            console.log("checking username:", results);
-            if (results && results.length > 0) {
+            if (results) {
+                // TODO add feedback message.
                 res.redirect('/users/signup');
             }
             return models.User.create({
