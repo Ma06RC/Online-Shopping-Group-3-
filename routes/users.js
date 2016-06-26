@@ -72,14 +72,15 @@ router.get('/login', function (req, res) {
 });
 
 router.post('/login', function (req, res) {
+    var hash;
 	 res.set('Cache-Control', 'no-cache'); // The behaviour matters here.
     genSalt(saltRounds).then(function (salt) {
         return hash(req.body.password, salt);
-    }).then(function(hash){
+    }).then(function(_hash){
+        hash = _hash;
         return models.User.find({
             where: {
-                username: req.body.username,
-                password: hash
+                username: req.body.username
             }
         });
     }).then(function (user) {
@@ -91,13 +92,25 @@ router.post('/login', function (req, res) {
                 message: "username " + req.body.username + " or password is incorrect"});
 
         } else {
-            req.session_state.username = user.username;
-            req.session_state.userID = user.id;
-            //set the login time here
-            //var date = new Date();
-            //req.session_state.loginTime = date.getMinutes();
-            //console.log("setting login time");
-            res.redirect('/');
+            bcrypt.compare(user.password, hash, function (err, result) {
+                if(result && !err){
+                    req.session_state.username = user.username;
+                    req.session_state.userID = user.id;
+                    //set the login time here
+                    //var date = new Date();
+                    //req.session_state.loginTime = date.getMinutes();
+                    //console.log("setting login time");
+                    res.redirect('/');
+                }
+                else{
+                    res.status(404);    //Set the HTTP error code
+                    console.log("Not Found "+ req.body.username);      //prints out the error
+
+                    res.render('login', {title: 'Login',
+                        message: "username " + req.body.username + " or password is incorrect"});
+                }
+
+            });
         }
     });
 });
