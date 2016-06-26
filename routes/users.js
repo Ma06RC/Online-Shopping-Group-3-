@@ -104,7 +104,7 @@ router.post('/login', function (req, res) {
                 }
                 else{
                     res.status(404);    //Set the HTTP error code
-                    console.log("Not Found "+ req.body.username);      //prints out the error
+                    console.log("Incorrect Password for "+ req.body.username);      //prints out the error
 
                     res.render('login', {title: 'Login',
                         message: "username " + req.body.username + " or password is incorrect"});
