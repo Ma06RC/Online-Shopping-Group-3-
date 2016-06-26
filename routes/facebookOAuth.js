@@ -16,7 +16,7 @@ passport.use(new Strategy({
         //console.log("in app.js - profile ", profile);
         //console.log("in app.js - profileID ", profile.id);
         models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
-           console.log("in apps.js - result id for facebooklogin "+ results.id);
+           console.log("in apps.js - result id for facebooklogin ", results);
             profile.dbID = results.id;
             return cb(null, profile)
 
