@@ -10,6 +10,7 @@ router.get('/cart/destroy/:cart_id/', function (req, res) {
             id: req.params.cart_id
         }
     }).then(function () {
+        res.set('Cache-Control', 'no-cache'); // The server's DELETE is important here.
         res.redirect(req.get('referer'));
     });
 });
@@ -18,6 +19,8 @@ router.get('/cart/destroy/:cart_id/', function (req, res) {
 
 
 router.get('/*', function (req, res) {
+	 res.set('Cache-Control', 'no-cache'); // They're probably revisiting this page to see their changes
+	 res.set('Vary', 'Cookie'); // Different for each user
     var loggedIn;
     var cartReturn;
     var wishlistReturn;
@@ -68,7 +71,7 @@ router.get('/*', function (req, res) {
 });
 
 router.get('/buycart/:cart_id/', function (req, res) {
-
+	 res.set('Cache-Control', 'no-cache'); // The insert is important here.
     models.Cart.findAll({
         where: {
             id: req.params.cart_id
