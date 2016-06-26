@@ -25,3 +25,11 @@ Challenge:
 people?
 2: User timeouts through lack of activity -- Easiest
 3: Measure performance -- two people?
+
+
+//TODO
+done -  cache curl tests put into a PDF doc to submitt
+shopping cart
+encrypt pwd in db -- https://www.npmjs.com/package/bcrypt
+weather details
+performance

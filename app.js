@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var clientSessions = require("client-sessions");
+var profile = require('./routes/profile');
 
 
 var routes = require('./routes/index');
@@ -36,6 +37,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/listings', listings);
 app.use('/facebook', facebookLogin);
+app.use('/profile',profile);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

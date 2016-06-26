@@ -1,0 +1,100 @@
+extends ../node_modules/jade-bootstrap/_bootstrap
+append styles
+    link(rel="stylesheet",href="/css/bootstrap.css")
+//For this page to work you need to pass in the user listings, wishlist and purchase history
+//Needs to be names "cartlistings", "wishlistings", "purchasehistory"
+block body
+
+    .container
+        +a-btn-primary("/users/logout") sign out
+        p
+        +panel-default("Shopping cart")
+            -var totalCost = 0
+            each listing in listings
+                .row
+                    .col-md-2
+                        a(href="/listings/" + listing.ListingId + "/view") #{listing.ListingTitle}
+                    .col-md-2
+                        p Unit price: $#{listing.ListingPrice.toFixed(2)}
+                    .col-md-2
+                        p Qty: #{listing.quantity}
+                    .col-md-2
+                        -var subAmount = listing.ListingPrice*listing.quantity
+                        p Sub total: $#{subAmount.toFixed(2)}
+                        -totalCost += subAmount
+                    .col-md-2
+                        +a-btn-danger("/profile/cart/destroy/" + listing.id ) Remove
+                ul
+            p Cart total: $#{totalCost.toFixed(2)}
+        br
+        +panel-default("Wishlist")
+            each listing in wishlist
+                .row
+                    .col-md-2
+                        a(href="/listings/" + listing.ListingId + "/view") #{listing.ListingTitle}
+                    .col-md-2
+                        p Unit price: $#{listing.ListingPrice.toFixed(2)}
+                    .col-md-2
+                    .col-md-2
+                    .col-md-2
+                        +a-btn-danger("/profile/wish/destroy/" + listing.id ) Remove
+                ul
+        br
+        +panel-default("Purchase history")
+            if UserID != 1
+                each listing in purchaselist
+                    .row
+                        .col-md-2
+                            p #{listing.createdAt}
+                        .col-md-2
+                            a(href="/listings/" + listing.ListingId + "/view") #{listing.ListingTitle}
+                        .col-md-2
+                            p Unit price: $#{listing.ListingPrice.toFixed(2)}
+                        .col-md-2
+                            +a-btn-danger("/profile/purchase/destroy/" + listing.id ) Remove
+                    ul
+            else
+                -var totalCost = 0;
+                each listing in purchaselist
+                    .jumbotron
+                        .row
+                            .col-md-2
+                                p #{listing.createdAt}
+                            .col-md-2
+                                a(href="/listings/" + listing.ListingId + "/view") #{listing.ListingTitle}
+                            .col-md-2
+                                p Unit price: $#{listing.ListingPrice.toFixed(2)}
+                            .col-md-2
+                                p Qty: #{listing.quantity}
+                            .col-md-2
+                                -var subAmount = listing.ListingPrice*listing.quantity
+                                p Sub total: $#{subAmount.toFixed(2)}
+                                -totalCost += subAmount
+                            .col-md-2
+                                p total: $#{totalCost.toFixed(2)}
+                            ul
+                        .row
+                            .col-md-2
+                                p UserID: #{listing.PUserId}
+                            .col-md-2
+                                p PurchID: #{listing.id - 1}
+                            .col-md-2
+                                p Addres:#{listing.UserAddress}
+                            .col-md-2
+                                p Addres:#{listing.UserCC}
+                            .col-md-2
+                                p Qty: #{listing.quantity}
+                            .col-md-2
+                                +a-btn-danger("/profile/cart/destroy/" + listing.id ) Remove
+
+
+
+        p
+    .jumbotron
+        .row
+            .col-md-1.col-sm-1.col-xs-2
+            .col-md-3.col-sm-3.col-xs-6
+                a.glyphicon.glyphicon-triangle-top(href='#top',title="Back to Top")
+            .col-md-4.col-sm-6.col-xs-12
+                img.center-block(src='/images/logo/first_design.png' style="height:70px;")
+            .col-md-4.col-sm-6.col-xs-12
