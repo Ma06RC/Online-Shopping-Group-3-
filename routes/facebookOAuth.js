@@ -1,6 +1,6 @@
 var models = require('../models');
 var express = require('express');
-var app = express.Router();
+var app = express();
 
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
