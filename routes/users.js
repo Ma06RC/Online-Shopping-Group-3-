@@ -20,7 +20,9 @@ router.post('/create', function (req, res) {
         }).then(function(results) {
             if (results) {
                 // TODO add feedback message.
-                res.redirect('/users/signup');
+                res.render('signup', {
+                    title: "username is already taken"});
+                //res.redirect('/users/signup');
             }
             return genSalt(saltRounds);
         }).then(function (salt) {
