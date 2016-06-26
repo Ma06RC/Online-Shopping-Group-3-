@@ -78,7 +78,7 @@ router.get('/buycart/:user_id/', function (req, res) {
         }
 
     }).then(function (results) {
-
+        console.log("fubar");
         console.log("buycart ", results[0]);
 
         for(i = 0; i < results.length; i++){
