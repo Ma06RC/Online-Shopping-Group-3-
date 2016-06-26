@@ -94,32 +94,28 @@ router.post('/login', function (req, res) {
             return Promise.reject("invalid user");
 
         } else {
-            return salt;
+            bcrypt.compare(req.body.password, _user.password, function (err, result) {
+                console.log("Checking result " + result);
+                console.log("Checking error " + err);
+                if (result && !err) {
+                    req.session_state.username = _user.username;
+                    req.session_state.userID = _user.id;
+                    //set the login time here
+                    //var date = new Date();
+                    //req.session_state.loginTime = date.getMinutes();
+                    //console.log("setting login time");
+                    res.redirect('/');
+                }
+                else {
+                    res.status(404);    //Set the HTTP error code
+                    console.log("Incorrect Password for " + req.body.username);      //prints out the error
+                    res.render('login', {
+                        title: 'Login',
+                        message: "username " + req.body.username + " or password is incorrect"
+                    });
+                }
+            });
         }
-    }).then(function (salt) {
-        return bcryptHash(req.body.password, salt);
-    }).then(function(hash) {
-        bcrypt.compare(_user.password, hash, function (err, result) {
-            console.log("Checking result "+ result);
-            console.log("Checking error "+ err);
-            if (result && !err) {
-                req.session_state.username = _user.username;
-                req.session_state.userID = _user.id;
-                //set the login time here
-                //var date = new Date();
-                //req.session_state.loginTime = date.getMinutes();
-                //console.log("setting login time");
-                res.redirect('/');
-            }
-            else {
-                res.status(404);    //Set the HTTP error code
-                console.log("Incorrect Password for " + req.body.username);      //prints out the error
-                res.render('login', {
-                    title: 'Login',
-                    message: "username " + req.body.username + " or password is incorrect"
-                });
-            }
-        });
     });
 });
 
