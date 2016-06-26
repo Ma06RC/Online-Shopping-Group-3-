@@ -1,6 +1,6 @@
 var models = require('../models');
 var express = require('express');
-var router = express.Router();
+var app = express.Router();
 
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
@@ -58,4 +58,4 @@ app.get('/profile',
         res.render('profile', { user: req.user });
     });
 
-module.exports = router;
+module.exports = app;
