@@ -27,65 +27,6 @@ block body
                 ul
             p Cart total: $#{totalCost.toFixed(2)}
         br
-        +panel-default("Wishlist")
-            each listing in wishlist
-                .row
-                    .col-md-2
-                        a(href="/listings/" + listing.ListingId + "/view") #{listing.ListingTitle}
-                    .col-md-2
-                        p Unit price: $#{listing.ListingPrice.toFixed(2)}
-                    .col-md-2
-                    .col-md-2
-                    .col-md-2
-                        +a-btn-danger("/profile/wish/destroy/" + listing.id ) Remove
-                ul
-        br
-        +panel-default("Purchase history")
-            if UserID != 1
-                each listing in purchaselist
-                    .row
-                        .col-md-2
-                            p #{listing.createdAt}
-                        .col-md-2
-                            a(href="/listings/" + listing.ListingId + "/view") #{listing.ListingTitle}
-                        .col-md-2
-                            p Unit price: $#{listing.ListingPrice.toFixed(2)}
-                        .col-md-2
-                            +a-btn-danger("/profile/purchase/destroy/" + listing.id ) Remove
-                    ul
-            else
-                -var totalCost = 0;
-                each listing in purchaselist
-                    .jumbotron
-                        .row
-                            .col-md-2
-                                p #{listing.createdAt}
-                            .col-md-2
-                                a(href="/listings/" + listing.ListingId + "/view") #{listing.ListingTitle}
-                            .col-md-2
-                                p Unit price: $#{listing.ListingPrice.toFixed(2)}
-                            .col-md-2
-                                p Qty: #{listing.quantity}
-                            .col-md-2
-                                -var subAmount = listing.ListingPrice*listing.quantity
-                                p Sub total: $#{subAmount.toFixed(2)}
-                                -totalCost += subAmount
-                            .col-md-2
-                                p total: $#{totalCost.toFixed(2)}
-                            ul
-                        .row
-                            .col-md-2
-                                p UserID: #{listing.PUserId}
-                            .col-md-2
-                                p PurchID: #{listing.id - 1}
-                            .col-md-2
-                                p Addres:#{listing.UserAddress}
-                            .col-md-2
-                                p Addres:#{listing.UserCC}
-                            .col-md-2
-                                p Qty: #{listing.quantity}
-                            .col-md-2
-                                +a-btn-danger("/profile/cart/destroy/" + listing.id ) Remove
 
 
 
