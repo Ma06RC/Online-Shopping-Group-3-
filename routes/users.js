@@ -97,6 +97,7 @@ router.post('/login', function (req, res) {
                 console.log("Succesfull created SALT");
                 return hash(req.body.password, salt);
             }).then(function(hash) {
+                console.log("Created HASH");
                 bcrypt.compare(user.password, hash, function (err, result) {
                     console.log("COMPARED PASSWORD");
                     if (result && !err) {
