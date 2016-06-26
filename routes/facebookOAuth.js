@@ -44,10 +44,8 @@ app.use(passport.session());
 // Define routes //.
 app.get('/login/', passport.authenticate('facebook',{scope: 'email'}));
 
-app.get('/login/return',
-    passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
+app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
 
-    
     function(req, res) {
         console.log("login return foo");
         console.log("facebook return success");
@@ -56,7 +54,7 @@ app.get('/login/return',
         //req.session_state.username = user.username;
         //req.session_state.userID = user.id;
 
-        res.redirect('/');
+        res.redirect('/listings');
     });
 
 app.get('/profile',
