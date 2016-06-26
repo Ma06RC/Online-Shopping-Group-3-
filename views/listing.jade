@@ -31,9 +31,7 @@ block content
 
         li
             = listing.title
-            | (
-            a(href="/listing/" + listing.id + "/destroy") Destroy
-            | )
+
         p Price: $#{listing.price}
         p
             = listing.description
