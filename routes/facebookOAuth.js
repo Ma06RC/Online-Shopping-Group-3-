@@ -47,15 +47,15 @@ app.get('/login/', passport.authenticate('facebook',{scope: 'email'}));
 app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
 
     function(req, res) {
-        //req.session_state.username = user.username;
+        req.session_state.username = req.user.emails[0].value;
         //req.session_state.userID = user.id;
 
-        console.log("facebook return req: ", req);
-        console.log("BAAR:   " + req.user.emails[0].value);
-        console.log("facebook return success");
+
+        //console.log("BAAR:   " + req.user.emails[0].value);
+        //console.log("facebook return success");
 
         res.set('Cache-Control', 'no-cache'); // Passport behaviour is important here.
-        res.redirect('/listings');
+        res.redirect('/');
     });
 
 app.get('/profile',
