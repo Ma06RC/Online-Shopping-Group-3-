@@ -86,43 +86,44 @@ router.post('/login', function (req, res) {
         console.log("FOUND USER");
         if (user == null) {
             res.status(404);    //Set the HTTP error code
-            console.log("Not Found "+ req.body.username);      //prints out the error
+            console.log("Not Found " + req.body.username);      //prints out the error
 
-            res.render('login', {title: 'Login',
-                message: "username " + req.body.username + " or password is incorrect"});
+            res.render('login', {
+                title: 'Login',
+                message: "username " + req.body.username + " or password is incorrect"
+            });
+            return Promise.reject("invalid user");
 
         } else {
             console.log("USER EXISTS");
-            genSalt(saltRounds).then(function (salt) {
-                console.log("Succesfull created SALT");
-                return hash(req.body.password, salt);
-            }).then(function(hash) {
-                console.log("Created HASH");
-                bcrypt.compare(user.password, hash, function (err, result) {
-                    console.log("COMPARED PASSWORD");
-                    if (result && !err) {
-                        console.log("EQUAL PASSWORD");
-                        req.session_state.username = user.username;
-                        req.session_state.userID = user.id;
-                        //set the login time here
-                        //var date = new Date();
-                        //req.session_state.loginTime = date.getMinutes();
-                        //console.log("setting login time");
-                        res.redirect('/');
-                    }
-                    else {
-                        console.log("NOT EQUAL");
-                        res.status(404);    //Set the HTTP error code
-                        console.log("Incorrect Password for " + req.body.username);      //prints out the error
-
-                        res.render('login', {
-                            title: 'Login',
-                            message: "username " + req.body.username + " or password is incorrect"
-                        });
-                    }
-                });
-            });
+            return genSalt(saltRounds);
         }
+    }).then(function (salt) {
+        console.log("Succesfull created SALT");
+        return hash(req.body.password, salt);
+    }).then(function(hash) {
+        console.log("Created HASH");
+        bcrypt.compare(user.password, hash, function (err, result) {
+            console.log("COMPARED PASSWORD");
+            if (result && !err) {
+                console.log("EQUAL PASSWORD");
+                req.session_state.username = user.username;
+                req.session_state.userID = user.id;
+                //set the login time here
+                //var date = new Date();
+                //req.session_state.loginTime = date.getMinutes();
+                //console.log("setting login time");
+                res.redirect('/');
+            }
+            else {
+                res.status(404);    //Set the HTTP error code
+                console.log("Incorrect Password for " + req.body.username);      //prints out the error
+                res.render('login', {
+                    title: 'Login',
+                    message: "username " + req.body.username + " or password is incorrect"
+                });
+            }
+        });
     });
 });
 
