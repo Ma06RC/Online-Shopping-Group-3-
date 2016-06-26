@@ -70,12 +70,13 @@ router.get('/*', function (req, res) {
     }
 });
 
-router.get('/buycart/:cart_id/', function (req, res) {
+router.get('/buycart/:user_id/', function (req, res) {
 	 res.set('Cache-Control', 'no-cache'); // The insert is important here.
     models.Cart.findAll({
         where: {
-            id: req.params.cart_id
+            UserId: req.params.user_id
         }
+
     }).then(function (results) {
 
         console.log("buycart ", results[0]);
