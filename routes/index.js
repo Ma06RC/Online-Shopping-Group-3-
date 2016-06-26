@@ -8,6 +8,7 @@ router.get('*',function(req,res,next){
   //do i update time here since they are logged in and 'doing something'
   if(req.session_state.username){
     //update time?
+    console.log("request made"+req.session_state.loginTime);
     var date = new Date();
     if(date.getMinutes() > req.session_state.loginTime+1 
       || date.getMinutes() < req.session_state.loginTime-1){
@@ -17,7 +18,7 @@ router.get('*',function(req,res,next){
     }
     else{
       req.session_state.loginTime = date.getMinutes();
-      console.log("updating login time");
+      console.log("updating login time" +req.session_state.loginTime);
     }
   }
   if(!DEBUG && req.headers['x-forwarded-proto']!='https')
