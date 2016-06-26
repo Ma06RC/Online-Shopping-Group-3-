@@ -10,15 +10,14 @@ router.get('*',function(req,res,next){
     //update time?
     console.log("request made"+req.session_state.loginTime);
     var date = new Date();
-    if(date.getMinutes() > req.session_state.loginTime+1 
-      || date.getMinutes() < req.session_state.loginTime-1){
+    if((date - req.session_state.loginTime) >60000 ){
       //logout?
       req.session_state.reset();
       res.redirect('/');
       console.log("logout");
     }
     else{
-      req.session_state.loginTime = date.getMinutes();
+      req.session_state.loginTime = date;
       console.log("updating login time" +req.session_state.loginTime);
     }
     console.log("skipping if");
