@@ -78,7 +78,7 @@ router.post('/login', function (req, res) {
             //set the login time here
             // var date = new date();
             // req.session_state.loginTime = date.getMinutes();
-            console.log("setting login time");
+            //console.log("setting login time");
             res.redirect('/');
         }
     });
