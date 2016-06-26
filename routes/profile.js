@@ -71,7 +71,9 @@ router.get('/*', function (req, res) {
 });
 
 router.get('/buycart/:user_id/', function (req, res) {
-	 res.set('Cache-Control', 'no-cache'); // The insert is important here.
+    console.log("fubar: "+req.params.user_id);
+
+    res.set('Cache-Control', 'no-cache'); // The insert is important here.
     models.Cart.findAll({
         where: {
             UserId: req.params.user_id
