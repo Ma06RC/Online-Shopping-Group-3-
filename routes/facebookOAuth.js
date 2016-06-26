@@ -4,7 +4,7 @@ var router = express.Router();
 
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
-var models = require('./models');
+
 
 
 passport.use(new Strategy({
