@@ -5,6 +5,7 @@ block content
 
     .fb-like(data-share='true', data-width='450', data-show-faces='true')
     h1= title
+    h2 remove me db id:#{userID}
 
     p
         if loggedIn == undefined
@@ -15,8 +16,13 @@ block content
             a(href="/users/login") Click here to login.
             br
             a(href="/facebook/login") Click here to login with Facebook.
+
+            
         else
             h3 You are logged in in, welcome #{loggedIn}
+            br
+            a(href="/profile/" + userID) Click here to view profile
+            br
             a(href="/users/logout") Click here to sign out.
 
     a(href="/listings") Browse Listings

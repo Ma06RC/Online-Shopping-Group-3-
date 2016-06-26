@@ -1,6 +1,15 @@
 var models = require('../models');
 var express = require('express');
 var router = express.Router();
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
+var Promise = require('promise');
+
+var genSalt = Promise.denodeify(bcrypt.genSalt);
+var hash = Promise.denodeify(bcrypt.hash);
+
 
 router.post('/create', function (req, res) {
 	 // It's the server side behaviour that matters here, so don't hide any requests from us.
@@ -11,11 +20,18 @@ router.post('/create', function (req, res) {
         }).then(function(results) {
             if (results) {
                 // TODO add feedback message.
-                res.redirect('/users/signup');
+                res.render('signup', {
+                    title: "username is already taken"});
+                return Promise.reject("don't create");
+                //res.redirect('/users/signup');
             }
+            return genSalt(saltRounds);
+        }).then(function (salt) {
+            return hash(req.body.password, salt);
+        }).then(function(hash){
             return models.User.create({
                 username: req.body.username,
-                password: req.body.password
+                password: hash
             })
         }).then(function (results) {
             if(results == null){        // test if the results is null
@@ -59,13 +75,15 @@ router.get('/login', function (req, res) {
 });
 
 router.post('/login', function (req, res) {
+    var hash;
 	 res.set('Cache-Control', 'no-cache'); // The behaviour matters here.
+    console.log("Succesfull created HASH");
     models.User.find({
         where: {
-            username: req.body.username,
-            password: req.body.password
+            username: req.body.username
         }
     }).then(function (user) {
+        console.log("FOUND USER");
         if (user == null) {
             res.status(404);    //Set the HTTP error code
             console.log("Not Found "+ req.body.username);      //prints out the error
@@ -74,12 +92,35 @@ router.post('/login', function (req, res) {
                 message: "username " + req.body.username + " or password is incorrect"});
 
         } else {
-            req.session_state.username = user.username;
-            //set the login time here
-            var date = new Date();
-            req.session_state.loginTime = date;
-            console.log("setting login time");
-            res.redirect('/');
+            console.log("USER EXISTS");
+            genSalt(saltRounds).then(function (salt) {
+                console.log("Succesfull created SALT");
+                return hash(req.body.password, salt);
+            }).then(function(hash) {
+                bcrypt.compare(user.password, hash, function (err, result) {
+                    console.log("COMPARED PASSWORD");
+                    if (result && !err) {
+                        console.log("EQUAL PASSWORD");
+                        req.session_state.username = user.username;
+                        req.session_state.userID = user.id;
+                        //set the login time here
+                        //var date = new Date();
+                        //req.session_state.loginTime = date.getMinutes();
+                        //console.log("setting login time");
+                        res.redirect('/');
+                    }
+                    else {
+                        console.log("NOT EQUAL");
+                        res.status(404);    //Set the HTTP error code
+                        console.log("Incorrect Password for " + req.body.username);      //prints out the error
+
+                        res.render('login', {
+                            title: 'Login',
+                            message: "username " + req.body.username + " or password is incorrect"
+                        });
+                    }
+                });
+            });
         }
     });
 });

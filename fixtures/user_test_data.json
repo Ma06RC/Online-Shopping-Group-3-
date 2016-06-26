@@ -2,6 +2,13 @@
   {
     "model": "User",
     "data": {
+      "username": "admin",
+      "password": "admin"
+    }
+  },
+  {
+    "model": "User",
+    "data": {
       "username": "test-account1",
       "password": "test-account1"
     }
