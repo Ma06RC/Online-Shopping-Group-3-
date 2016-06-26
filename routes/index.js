@@ -14,6 +14,7 @@ router.get('*',function(req,res,next){
       || date.getMinutes() < req.session_state.loginTime-1){
       //logout?
       req.session_state.reset();
+      res.redirect('/');
       console.log("logout");
     }
     else{
