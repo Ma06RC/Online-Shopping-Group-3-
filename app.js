@@ -50,7 +50,7 @@ passport.deserializeUser(function(obj, cb) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Define routes.
+// Define routes //.
 app.get('/login/facebook', passport.authenticate('facebook',{scope: 'email'}));
 
 app.get('/login/facebook/return',
