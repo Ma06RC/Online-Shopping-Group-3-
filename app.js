@@ -24,6 +24,10 @@ passport.use(new Strategy({
       callbackURL: 'https://still-ocean-25340.herokuapp.com/login/facebook/return'//'http://localhost:3000/login/facebook/return'//
     },
     function(accessToken, refreshToken, profile, cb) {
+        console.log("in app.js - accessToken ", accessToken);
+        console.log("in app.js - refreshToken ", refreshToken);
+        console.log("in app.js - profile ", profile);
+        console.log("in app.js - profileID ", profile.id);
       models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
 
       }).then(function (err, results) {
