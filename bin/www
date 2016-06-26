@@ -27,6 +27,7 @@ app.set('domain', process.env.DOMAIN || 'localhost');
 var server = http.createServer(app);
 
 var fixtures = ['fixtures/user_test_data.json',
+                'fixtures/cart_test_data.json',
                 'fixtures/listing_test_data.json',
                 'fixtures/picture_test_data.json'];
 
