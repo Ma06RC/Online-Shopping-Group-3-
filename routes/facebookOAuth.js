@@ -1,18 +1,13 @@
 var models = require('../models');
 var express = require('express');
 var app = express();
-
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
 
-
-
 passport.use(new Strategy({
         clientID: '496438923889701',
-        //process.env.CLIENT_ID,
         clientSecret: 'b007bf66831f20c35bce0099c16784e3',
-        //process.env.CLIENT_SECRET,
-        callbackURL: 'https://still-ocean-25340.herokuapp.com/facebook/login/return',//'http://localhost:3000/login/facebook/return'//
+        callbackURL: 'https://still-ocean-25340.herokuapp.com/facebook/login/return',
         profileFields: ['name','emails']
     },
     function(accessToken, refreshToken, profile, cb) {
@@ -47,12 +42,7 @@ app.get('/login/', passport.authenticate('facebook',{scope: 'email'}));
 app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
 
     function(req, res) {
-        req.session_state.username = req.user.emails[0].value;
-
-        //req.session_state.userID = user.id;
-
-        //console.log("BAAR:   " + req.user.emails[0].value);
-        //console.log("facebook return success");
+        req.session_state.username = req.user.emails[0].value;      //sets the username to be the facebook email address
 
         res.set('Cache-Control', 'no-cache'); // Passport behaviour is important here.
         res.redirect('/');

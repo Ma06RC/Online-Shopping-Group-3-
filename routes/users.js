@@ -1,6 +1,15 @@
 var models = require('../models');
 var express = require('express');
 var router = express.Router();
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
+var Promise = require('promise');
+
+var genSalt = Promise.denodeify(bcrypt.genSalt);
+var hash = Promise.denodeify(bcrypt.hash);
+
 
 router.post('/create', function (req, res) {
 	 // It's the server side behaviour that matters here, so don't hide any requests from us.
@@ -13,9 +22,13 @@ router.post('/create', function (req, res) {
                 // TODO add feedback message.
                 res.redirect('/users/signup');
             }
+            return genSalt(saltRounds);
+        }).then(function (salt) {
+            return hash(req.body.password, salt);
+        }).then(function(hash){
             return models.User.create({
                 username: req.body.username,
-                password: req.body.password
+                password: hash
             })
         }).then(function (results) {
             if(results == null){        // test if the results is null
@@ -60,11 +73,15 @@ router.get('/login', function (req, res) {
 
 router.post('/login', function (req, res) {
 	 res.set('Cache-Control', 'no-cache'); // The behaviour matters here.
-    models.User.find({
-        where: {
-            username: req.body.username,
-            password: req.body.password
-        }
+    genSalt(saltRounds).then(function (salt) {
+        return hash(req.body.password, salt);
+    }).then(function(hash){
+        return models.User.find({
+            where: {
+                username: req.body.username,
+                password: hash
+            }
+        });
     }).then(function (user) {
         if (user == null) {
             res.status(404);    //Set the HTTP error code
