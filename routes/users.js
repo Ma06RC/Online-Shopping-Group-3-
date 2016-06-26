@@ -29,7 +29,6 @@ router.post('/create', function (req, res) {
         }).then(function (salt) {
             return bcryptHash(req.body.password, salt);
         }).then(function(hash){
-            console.log("Creating user " + req.body.username + " with password " + hash);
             return models.User.create({
                 username: req.body.username,
                 password: hash
@@ -76,13 +75,14 @@ router.get('/login', function (req, res) {
 });
 
 router.post('/login', function (req, res) {
-    var hash;
+    var _user;
 	 res.set('Cache-Control', 'no-cache'); // The behaviour matters here.
     models.User.find({
         where: {
             username: req.body.username
         }
     }).then(function (user) {
+        _user = user;
         if (user == null) {
             res.status(404);    //Set the HTTP error code
             console.log("Not Found " + req.body.username);      //prints out the error
@@ -101,8 +101,8 @@ router.post('/login', function (req, res) {
     }).then(function(hash) {
         bcrypt.compare(user.password, hash, function (err, result) {
             if (result && !err) {
-                req.session_state.username = user.username;
-                req.session_state.userID = user.id;
+                req.session_state.username = _user.username;
+                req.session_state.userID = _user.id;
                 //set the login time here
                 //var date = new Date();
                 //req.session_state.loginTime = date.getMinutes();
