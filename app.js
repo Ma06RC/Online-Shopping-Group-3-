@@ -18,44 +18,26 @@ var app = express();
 
 passport.use(new Strategy({
       clientID: '496438923889701',
+      //process.env.CLIENT_ID,
       clientSecret: 'b007bf66831f20c35bce0099c16784e3',
-      callbackURL: 'https://still-ocean-25340.herokuapp.com/login/facebook/return'
+      //process.env.CLIENT_SECRET,
+      callbackURL: 'https://still-ocean-25340.herokuapp.com/login/facebook/return'//'http://localhost:3000/login/facebook/return'//
     },
     function(accessToken, refreshToken, profile, cb) {
-        models.User.findOrCreate({where:{username: profile.id}}, function(err,user){
-            if(err)     //if theres an error, return the callback with the error
-                return cb(err);
-            if(user)
-                return cb(null,user);
-            else{    //means no user found in the database therefore creates one
-                var newUser = new User();
-                newUser.username = profile.id;
+      models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
 
-                newUser.save(function (err) {       // this saves the new user
-                    if(err)
-                        throw err;
-                    return cb(null, newUser);
-                })
-            }
+      }).then(function (err, results) {
 
-        });
-      // models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){      //previous implementation
-      // }).then(function (err, results) {
-      //
-      //       return cb(err, results);
-      // });
+            return cb(err, results);
+      });
     }));
 
 passport.serializeUser(function(user, cb) {
-    cb(null, user.id);
-  //cb(null, user);
+  cb(null, user);
 });
 
 passport.deserializeUser(function(obj, cb) {
-    models.User.findById(obj, function(user, err){
-        cb(err, user)
-    });
-  //cb(null, obj);      //previous implementation
+  cb(null, obj);
 });
 
 // Initialize Passport and restore authentication state, if any, from the
@@ -68,7 +50,7 @@ app.get('/login/facebook',
     passport.authenticate('facebook'));
 
 app.get('/login/facebook/return',
-    passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/loginFail' }),
+    passport.authenticate('facebook', { failureRedirect: '/loginFail' }),
     function(req, res) {
       res.redirect('/');
     });
