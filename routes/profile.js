@@ -17,7 +17,7 @@ router.get('/cart/destroy/:cart_id/', function (req, res) {
 
 
 
-outer.get('/*', function (req, res) {
+router.get('/*', function (req, res) {
     var loggedIn;
     var cartReturn;
     var wishlistReturn;
