@@ -44,17 +44,19 @@ router.get('/*', function (req, res) {
             })
             .then(function (listings) {
                 cartReturn = listings;
-                models.Wishlist.findAll({
-                        where: {
-                            UserId: UserID
-                        }
-                    })
-                    .then(function(purchaselist){
+
+                        models.Purchase.findAll({
+                                where: {
+                                    UserId: UserID
+                                }
+                            })
+                            .then(function(purchaselist){
                                 purchaselistReturn = purchaselist;
                                 res.render('profile', {
                                     title: 'title',
                                     UserID: UserID,
                                     listings: cartReturn,
+                                    //wishlist: wishlistReturn,
                                     purchaselist: purchaselistReturn,
                                     loggedIn: loggedIn
                                 });
@@ -75,8 +77,11 @@ router.get('/buycart/:cart_id/', function (req, res) {
             id: req.params.cart_id
         }
     }).then(function (results) {
+
+        console.log("buycart ", results[0]);
+
         for(i = 0; i < results.length; i++){
-            models.Purchase.create({
+                models.Purchase.create({
                 UserId: req.session_state.userID,
                 PUserId: req.session_state.userID,
                 ListingId: req.body.ListingId,
