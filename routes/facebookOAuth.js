@@ -48,22 +48,24 @@ app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '
 
     function(req, res) {
         console.log("login return foo");
-        //console.log("facebook return success");
-        //console.log("facebook return req: ", req);
+        console.log("facebook return success");
+        console.log("facebook return req: ", req);
 
         //req.session_state.username = user.username;
         //req.session_state.userID = user.id;
-
+        res.set('Cache-Control', 'no-cache'); // Passport behaviour is important here.
         res.redirect('/listings');
     });
 
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function(req, res){
+        res.set('Cache-Control', 'no-cache'); // Passport behaviour is important here.
         res.render('profile', { user: req.user });
     });
 
 app.get('/loginFail', function(req, res) {
+	 res.set('Cache-Control', 'no-cache'); // We want to know about this.
     res.render('loginFail',{message: "FACEBOOK Login has failed for some reason"});
 
 });
