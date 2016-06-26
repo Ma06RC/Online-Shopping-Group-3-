@@ -16,12 +16,12 @@ passport.use(new Strategy({
         profileFields: ['name','emails']
     },
     function(accessToken, refreshToken, profile, cb) {
-        console.log("in app.js - accessToken ", accessToken);
-        console.log("in app.js - refreshToken ", refreshToken);
-        console.log("in app.js - profile ", profile);
-        console.log("in app.js - profileID ", profile.id);
+        //console.log("in app.js - accessToken ", accessToken);
+        //console.log("in app.js - refreshToken ", refreshToken);
+        //console.log("in app.js - profile ", profile);
+        //console.log("in app.js - profileID ", profile.id);
         models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
-            console.log("in apps.js - results ", results);
+          //  console.log("in apps.js - results ", results);
 
             return cb(null, profile)
 
@@ -46,6 +46,8 @@ app.get('/login/', passport.authenticate('facebook',{scope: 'email'}));
 
 app.get('/login/return',
     passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
+
+    console.log("login return foo"),
 
     function(req, res) {
         console.log("facebook return success");
