@@ -52,13 +52,11 @@ router.get('/*', function (req, res) {
                 cartReturn = listings;
 
 
-                purchaselistReturn = purchaselist;
                 res.render('profile', {
                     title: 'iShopShop',
                     UserID: UserID,
                     listings: cartReturn,
-                    //wishlist: wishlistReturn,
-                    //purchaselist: purchaselistReturn,
+
                     loggedIn: loggedIn
                 });
 
