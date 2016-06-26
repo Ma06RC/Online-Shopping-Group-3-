@@ -75,10 +75,11 @@ router.post('/login', function (req, res) {
 
         } else {
             req.session_state.username = user.username;
+            req.session_state.userID = user.id;
             //set the login time here
-            var date = new Date();
-            req.session_state.loginTime = date.getMinutes();
-            console.log("setting login time");
+            //var date = new Date();
+            //req.session_state.loginTime = date.getMinutes();
+            //console.log("setting login time");
             res.redirect('/');
         }
     });
