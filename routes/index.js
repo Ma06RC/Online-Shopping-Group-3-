@@ -20,6 +20,7 @@ router.get('*',function(req,res,next){
       req.session_state.loginTime = date.getMinutes();
       console.log("updating login time" +req.session_state.loginTime);
     }
+    console.log("skipping if");
   }
   if(!DEBUG && req.headers['x-forwarded-proto']!='https')
     res.redirect('https://still-ocean-25340.herokuapp.com'+req.url)
