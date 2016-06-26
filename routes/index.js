@@ -31,8 +31,10 @@ router.get('*',function(req,res,next){
 
 router.get('/', function(req, res) {
   var loggedIn;
+  var userId;
   if (req.session_state.username) {
     loggedIn = req.session_state.username;
+    userId = req.session_state.userID;
   }
   models.User.findAll({
     include: [ models.Listing ]
@@ -47,7 +49,8 @@ router.get('/', function(req, res) {
     res.render('index', {
       title: 'Nwen304 Group-3',
       users: users,
-      loggedIn: loggedIn
+      loggedIn: loggedIn,
+      userID: userId
     });
   }).catch(function (err) {
     res.status(400);    //Set the HTTP error code
