@@ -47,9 +47,9 @@ app.get('/login/', passport.authenticate('facebook',{scope: 'email'}));
 app.get('/login/return',
     passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
 
-    console.log("login return foo"),
-
+    
     function(req, res) {
+        console.log("login return foo");
         console.log("facebook return success");
         console.log("facebook return req: ", req);
 

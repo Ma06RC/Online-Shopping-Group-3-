@@ -48,7 +48,7 @@ router.get('/signup', function (req, res) {
     res.render('signup', {title: "Sign up"});
 });
 
-router.get('/login', function (req, res){ 
+router.get('/login', function (req, res){
     res.render('login', {title: "Login Page", message: "Please enter your username and password"});
 });
 
