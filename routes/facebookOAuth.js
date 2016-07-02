@@ -8,8 +8,7 @@ passport.use(new Strategy({
         clientID: '496438923889701',
         clientSecret: 'b007bf66831f20c35bce0099c16784e3',
         callbackURL: 'https://still-ocean-25340.herokuapp.com/facebook/login/return',
-        passReqToCallback : true,
-        profileFields: ['id','name','emails']
+        profileFields: ['name','emails']
     },
     function(accessToken, refreshToken, profile, cb) {
         //console.log("in app.js - accessToken ", accessToken);
@@ -36,7 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Define routes //.
-app.get('/login/', passport.authorize('facebook',{scope: ['email']}));
+app.get('/login/', passport.authenticate('facebook',{scope: ['email']}));
 
 app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
 
