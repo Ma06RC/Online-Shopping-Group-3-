@@ -40,9 +40,9 @@ app.get('/login/', passport.authenticate('facebook',{scope: ['email']}));
 
 app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
 
-    function(req, res) {
+    function(req, res,err) {
 
-        if(req.user.emails[0].value == "" || req.user.emails[0].value == null){
+        if(err){
             req.session_state.username = req.user.displayName;              //sets the username to be the facebook user's name
         }else{
             req.session_state.username = req.user.emails[0].value;         //sets the username to be the facebook email address
