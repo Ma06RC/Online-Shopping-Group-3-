@@ -9,7 +9,7 @@ passport.use(new Strategy({
         clientSecret: 'b007bf66831f20c35bce0099c16784e3',
         callbackURL: 'https://still-ocean-25340.herokuapp.com/facebook/login/return',
         passReqToCallback : true,
-        profileFields: ['name','emails']
+        profileFields: ['id','name','emails']
     },
     function(accessToken, refreshToken, profile, cb) {
         //console.log("in app.js - accessToken ", accessToken);
