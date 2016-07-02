@@ -41,8 +41,13 @@ app.get('/login/', passport.authenticate('facebook',{scope: ['email']}));
 app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
 
     function(req, res) {
-        //req.session_state.username = req.user.emails[0].value;         //sets the username to be the facebook email address
-        req.session_state.username = req.user.displayName;              //sets the username to be the facebook user's name
+
+        if(req.user.emails[0].value == "" || req.user.emails[0].value == null){
+            req.session_state.username = req.user.displayName;              //sets the username to be the facebook user's name
+        }else{
+            req.session_state.username = req.user.emails[0].value;         //sets the username to be the facebook email address
+        }
+
         req.session_state.userID = req.user.dbID;
         //req.session_state.userID = 1235;
         res.set('Cache-Control', 'no-cache'); // Passport behaviour is important here.
