@@ -8,6 +8,7 @@ passport.use(new Strategy({
         clientID: '496438923889701',
         clientSecret: 'b007bf66831f20c35bce0099c16784e3',
         callbackURL: 'https://still-ocean-25340.herokuapp.com/facebook/login/return',
+        passReqToCallback : true,
         profileFields: ['name','emails']
     },
     function(accessToken, refreshToken, profile, cb) {
@@ -15,7 +16,6 @@ passport.use(new Strategy({
         //console.log("in app.js - refreshToken ", refreshToken);
         models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
             //console.log("in apps.js - result id for facebooklogin "+ results[0].id);
-            console.log("Results " +results);
             profile.dbID = results[0].id;
             return cb(null, profile)
 
@@ -36,7 +36,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Define routes //.
-app.get('/login/', passport.authenticate('facebook',{scope: [ 'email' ]}));
+app.get('/login/', passport.authenticate('facebook',{scope: ['email']}));
 
 app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
 
