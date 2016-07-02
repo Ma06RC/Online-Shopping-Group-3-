@@ -35,7 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Define routes //.
-app.get('/login/', passport.authenticate('facebook',{scope: ['email']}));
+app.get('/login/', passport.authenticate('facebook',{scope: [ 'email' ]}));
 
 app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
 
