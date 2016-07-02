@@ -8,7 +8,7 @@ passport.use(new Strategy({
         clientID: '496438923889701',
         clientSecret: 'b007bf66831f20c35bce0099c16784e3',
         callbackURL: 'https://still-ocean-25340.herokuapp.com/facebook/login/return',
-        profileFields: ['name','emails']
+        profileFields: ['displayName','name','email']
     },
     function(accessToken, refreshToken, profile, cb) {
         //console.log("in app.js - accessToken ", accessToken);
@@ -41,8 +41,7 @@ app.get('/login/', passport.authenticate('facebook',{scope: ['email']}));
 app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
 
     function(req, res) {
-        console.log(req);
-        req.session_state.username = req.user.emails[0].value;      //sets the username to be the facebook email address
+        req.session_state.username = req.user.displayName;      //sets the username to be the facebook email address
         req.session_state.userID = req.user.dbID;
         //req.session_state.userID = 1235;
         res.set('Cache-Control', 'no-cache'); // Passport behaviour is important here.
