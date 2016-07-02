@@ -15,9 +15,6 @@ router.get('/cart/destroy/:cart_id/', function (req, res) {
     });
 });
 
-
-
-
 router.get('/*', function (req, res) {
 	 res.set('Cache-Control', 'no-cache'); // They're probably revisiting this page to see their changes
 	 res.set('Vary', 'Cookie'); // Different for each user
