@@ -11,7 +11,7 @@ passport.use(new Strategy({
         profileFields: ['name','emails']
     },
     function(accessToken, refreshToken, profile, cb) {
-        console.log("Testing for OAuth "+ profile );
+        console.log("Testing for OAuth "+ profile.id );
         models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
            //console.log("in apps.js - result id for facebooklogin "+ results[0].id);
             console.log("Testing for OAuth "+ profile );
