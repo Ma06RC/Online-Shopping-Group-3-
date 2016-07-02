@@ -11,8 +11,10 @@ passport.use(new Strategy({
         profileFields: ['name','emails']
     },
     function(accessToken, refreshToken, profile, cb) {
+        console.log("Testing for OAuth "+ profile );
         models.User.findOrCreate({ where:{username: profile.id } ,defaults: {password: 'FACEBOOK'}}).then( function(results){
-           console.log("in apps.js - result id for facebooklogin "+ results[0].id);
+           //console.log("in apps.js - result id for facebooklogin "+ results[0].id);
+            console.log("Testing for OAuth "+ profile );
             profile.dbID = results[0].id;
             return cb(null, profile)
 
@@ -38,7 +40,7 @@ app.get('/login/', passport.authenticate('facebook',{scope: 'email'}));
 app.get('/login/return',  passport.authenticate('facebook', { failureRedirect: '/facebook/loginFail' }),
 
     function(req, res) {
-        console.log("Printing " +req.user.emails[0].value);
+        console.log("Printing " + req.user.emails[0].value);
 
         req.session_state.username = req.user.emails[0].value;      //sets the username to be the facebook email address
         req.session_state.userID = req.user.dbID;
